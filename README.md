@@ -2,7 +2,7 @@
 
 fMRI 뇌 활동 data로 인지 과제를 분류하고, 피험자가 본 이미지의 내용을 문장으로 생성하는 수업 프로젝트다. HCP betamap으로 학습한 encoder를 GPT-2에 연결해 NSD 캡션 생성으로 확장했다.
 
-(사진)
+![Title](./)
 
 - **기간:** 2026.04–2026.06
 - **수행자:** 유민성(개인)
@@ -12,7 +12,7 @@ fMRI 뇌 활동 data로 인지 과제를 분류하고, 피험자가 본 이미�
 
 ### 1. HCP·NSD 전처리
 
-raw BOLD 영상에 slice-timing correction, motion correction, spatial smoothing을 적용하고 GLM으로 task condition 및 이미지별 betamap을 추출했다. NSD는 이미지 ID를 통해 COCO 캡션과 연결했다.
+raw fMRI data에 slice-timing correction, motion correction, spatial smoothing을 적용하고 GLM으로 task condition 및 이미지별 betamap을 추출했다. NSD는 이미지 ID를 통해 COCO 캡션과 연결했다.
 
 ### 2. HCP task classification
 
@@ -20,7 +20,7 @@ raw BOLD 영상에 slice-timing correction, motion correction, spatial smoothing
 
 ### 3. NSD caption decoding
 
-학습한 encoder의 feature vector를 Bridge로 변환해 GPT-2에 brain-prefix로 입력했다. GPT-2 가중치는 고정하고 encoder와 Bridge를 학습했다. 생성 캡션과 zero·random 입력, 직접 전처리한 data의 결과를 비교했다.
+학습한 encoder의 feature vector를 Bridge로 변환해 GPT-2에 brain-prefix로 입력했다. GPT-2 가중치가 frozen인 상태로 encoder와 Bridge network만 학습했다. 생성 캡션과 ablation, 직접 전처리한 data의 결과를 비교했다.
 
 모델 학습에는 수업에서 제공한 betamap을 사용했다. 직접 전처리한 data는 별도의 입력 테스트에 활용했다.
 
