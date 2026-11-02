@@ -6,13 +6,11 @@
 
 **test Macro-F1: 0.8667**
 
-1,520개 sample을 train / validation / test 8:1:1로 무작위 분할하고 마지막 epoch 모델을 평가했다. sample 단위 분할 기준의 결과이며, 피험자별로 분리한 평가는 아니다.
+1,520개 sample을 train / validation / test 8:1:1로 무작위 분할하고 마지막 epoch 모델을 평가했다.
 
 ### Confusion matrix
 
 ![HCP confusion matrix](../../Docs/Images/encoder-cm.png)
-
-숫자 label은 다음 순서다.
 
 | label | task condition | label | task condition |
 |---|---|---|---|
@@ -31,11 +29,11 @@
 
 ![Encoder feature t-SNE](../../Docs/Images/encoder-tsne.png)
 
-test sample의 768차원 feature vector를 t-SNE로 시각화했다. 색은 정답 task condition을 나타낸다.
+test sample의 768차원 feature vector를 t-SNE로 시각화했다.
 
 ## 2. 직접 전처리한 HCP data의 ablation
 
-01 노트북에서 추출한 betamap 30개를 같은 길이로 pooling하고 학습된 분류 모델에 입력했다.
+직접 전처리한 betamap data(첫 번째 ipynb 파일 참조) 30개를 같은 길이로 pooling하고 학습된 분류 모델에 입력했다. 모두 같은 라벨로 분류되는 것으로 확인된다.
 
 ![직접 전처리한 HCP 입력 결과](../../Docs/Images/encoder-ablation.png)
 
