@@ -65,7 +65,7 @@ betamap (100,000)
 
 GPT-2 가중치는 고정하고 encoder와 Bridge를 학습했다. 학습 시에는 prefix와 정답 캡션 embedding을 연결하며, 생성 시에는 prefix만 입력한다.
 
-### 학습 곡선
+### Loss curve
 
 ![NSD caption decoding loss](Images/btt-loss.png)
 

@@ -29,8 +29,8 @@ raw fMRI data에 slice-timing correction, motion correction, spatial smoothing�
 | 경로 | 내용 |
 |---|---|
 | [Notebooks](Notebooks/) | 전처리부터 분류·캡션 생성까지의 코드와 실행 결과 |
-| [Results](Results/) | 결과 이미지 및 생성 예시 |
-| [Docs](Docs/) | 실험 과정과 한계 정리 |
+| [Results](Results/) | 분류 결과 및 캡션 생성 예시 |
+| [Docs](Docs/) | 실험 과정 및 이미지 자료 |
 
 ### 노트북
 

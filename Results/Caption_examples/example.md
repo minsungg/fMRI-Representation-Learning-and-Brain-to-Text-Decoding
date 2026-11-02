@@ -4,6 +4,8 @@
 
 ## 1. Test data의 생성 결과
 
+노트북에 출력된 예시 중 일부를 정리했으며, sample 번호는 원문을 유지했다.
+
 | sample | reference | generated caption |
 |---|---|---|
 | 1 | several red ripe apples in two large wooden boxes | A large bowl of rice and a large bowl of noodles. |
