@@ -1,10 +1,8 @@
 # NSD 캡션 생성 예시와 ablation
 
-HCP에서 학습한 encoder를 Bridge로 GPT-2에 연결해 캡션을 생성했다. 모델 구조와 학습 과정은 [실험 기록](../../Docs/experiment_log.md#3-nsd-caption-decoding)에 정리했다.
+4번째 ipynb 파일에서 진행된 캡션 생성의 예시를 나열한다. 모델 구조와 학습 과정은 [실험 기록](../../Docs/experiment_log.md#3-nsd-caption-decoding)에 정리했다.
 
 ## 1. Test data의 생성 결과
-
-아래는 04 노트북에 출력된 test 첫 10개 중 여섯 예시다. sample 번호와 문장은 노트북 원문을 유지했다. reference는 COCO 이미지 설명이며 피험자의 발화가 아니다.
 
 | sample | reference | generated caption |
 |---|---|---|
@@ -15,9 +13,7 @@ HCP에서 학습한 encoder를 Bridge로 GPT-2에 연결해 캡션을 생성했�
 | 6 | A seagull rests on a concrete wall, with the ocean and a lighthouse in the background. | A man is standing on a tree in the middle of the road. |
 | 7 | A zebra is standing in a field and looking right at the camera. | A man is standing on a tree in the middle of the forest. |
 
-sample 2와 3에서는 사람·앉기, 방·침대 등 겹치는 개념이 나타났다. 다만 장소나 사물, 개수는 달랐다. 다른 예시에서는 중심 대상 자체가 다르거나 `A man ... a tree`와 같은 표현이 반복되었다.
-
-## 2. Zero / random 입력 ablation
+## 2. ablation
 
 실제 betamap 대신 zero 벡터 하나와 random 벡터 세 개를 입력했다.
 
@@ -28,9 +24,7 @@ sample 2와 3에서는 사람·앉기, 방·침대 등 겹치는 개념이 나�
 | random 2 | A man walks up to a tree with his hands on a tree. |
 | random 3 | A man walks up to a tree with his hands on a tree. |
 
-정보가 없는 입력에서도 문장이 생성됐고 random 입력에서는 동일 문장이 반복됐다.
-
-## 3. 직접 전처리한 NSD data의 ablation
+## 3. 직접 전처리한 NSD data
 
 02 노트북에서 추출한 betamap을 학습된 모델에 입력했다. 서로 다른 자극에서도 유사한 문장이 반복됐다.
 
