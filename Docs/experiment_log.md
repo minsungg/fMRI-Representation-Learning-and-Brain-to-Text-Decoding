@@ -46,11 +46,11 @@ Adam, learning rate `1e-4`, weight decay `1e-5`, batch size 64로 35 epochs 학�
 
 ### Encoder 구조 변경
 
-초기에는 MLP를 사용했지만 training loss가 1.0 아래로 내려가지 않았다. 이에 1차원 betamap에서 인접한 값들의 패턴을 학습하는 1D CNN을 사용하는 것으로 구조를 변경했다. 다른 시계열 모델도 고려할 수 있었지만 긴 입력을 순차적으로 처리하는 RNN의 실행 시간과, 적은 학습 data에서 Transformer를 학습하는 부담을 고려해 CNN을 선택했다.
+초기에는 MLP를 사용했지만 training loss가 1.0 아래로 내려가지 않았다. 이에 1차원 betamap에서 인접한 값들의 패턴을 학습하는 1D CNN을 사용하는 것으로 구조를 변경했다. RNN과 Transformer도 고려했지만 긴 입력을 순차적으로 처리하는 RNN의 실행 시간과, 적은 학습 data에서 Transformer를 학습하는 부담을 고려해 CNN을 선택했다.
 
 두 번째 구성은 convolution layer 3개와 FC layer 2개로 256차원 feature vector를 만드는 구조였다. HCP 분류에서는 validation 성능이 나왔지만, NSD 캡션 생성에 재사용했을 때 반복적인 문장과 자극에 맞지 않는 출력이 나타났다.
 
-이를 overfitting으로 판단해 convolution layer를 4개로 늘리고 ReLU를 GELU로 변경했으며 dropout과 weight decay를 추가했다. feature dimension도 768로 확대했으며, 이 변경은 아래 NSD 실험에 자세히 기술했다.
+이를 overfitting으로 판단해 dropout과 weight decay를 추가했다. 구조도 함께 조정해 convolution layer를 4개로 늘리고 ReLU를 GELU로 변경했다. feature dimension도 768로 확대했으며, 이 변경은 아래 NSD 실험에 자세히 기술했다.
 
 classification head는 단일 linear layer로 구성하고 encoder와 분리했다. HCP 분류 이후에는 head를 제거하고 feature vector를 NSD에 재사용하기 위한 구성이다.
 
@@ -87,7 +87,7 @@ GPT-2 가중치는 고정하고 encoder와 Bridge를 학습했다. 학습 시에
 
 초기에는 256차원 feature vector를 여러 brain-prefix로 변환했다. prefix 수를 늘리면 training loss는 낮아졌지만, 실제 생성에서는 자극과 관계없는 문장이나 반복 표현이 나타났다. 학습 loss가 낮아지는 것과 새로운 입력에서 캡션이 잘 생성되는 것은 달랐다.
 
-이 과정에서 prefix 수뿐 아니라 Bridge network에 전달되는 feature vector의 폭을 함께 조정했다. 출력 벡터를 크게 만들더라도 그 바탕이 되는 256차원 표현은 그대로였으며 network의 width가 가장 좁아지는 지점이었기 때문이다. feature dimension을 256에서 768로 늘리고 prefix는 최종 3개로 줄였다. 이 실험에서는 feature dimension 확대가 생성 결과 개선의 주요 전환점이었다.
+이 과정에서 prefix 수뿐 아니라 Bridge network에 전달되는 feature vector의 폭을 함께 조정했다. 출력 벡터를 크게 만들더라도 encoder와 Bridge 사이에서 정보를 전달하는 중간 표현이 256차원으로 제한되어 있었기 때문이다. feature dimension을 256에서 768로 늘리고 prefix는 최종 3개로 줄였다. 이 실험에서는 feature dimension 확대가 생성 결과 개선의 주요 전환점이었다.
 
 prefix를 더 늘렸을 때는 성능 향상이 크지 않은 반면 전체 학습 시간이 늘어 최종 3개를 사용했다.
 
