@@ -26,6 +26,16 @@ slice-timing correction, rigid-body motion correction, spatial smoothing을 적�
 | 저장 단위 | run 내 task condition | run 내 이미지 ID |
 | 최종 배열 | `(30, 182453)` | `(133, 292796)` |
 
+### Pooling으로 입력 길이 통일
+
+HCP와 NSD betamap은 모두 1차원 벡터로 사용하지만 길이가 서로 다르다. 같은 encoder를 두 data에 사용하기 위해 입력 길이를 통일해야 했다.
+
+PCA 등의 차원 축소도 고려했다. 다만 입력 차원에 비해 sample 수가 적어, 제한된 data에서 추정한 주성분에 의존하는 방식은 이번 구성에 적합하지 않다고 판단했다. PCA와의 성능 비교를 진행한 것은 아니다.
+
+대신 `AdaptiveAvgPool1d(100000)`으로 입력 길이를 100,000으로 맞췄다. 별도의 변환 학습 없이 원하는 출력 길이를 지정할 수 있고, 벡터 순서에 따라 인접 구간을 평균 내므로 국소적인 변화의 흐름을 남기면서 입력을 줄이려는 목적이었다. 평균화 과정에서 세부 정보는 줄어들며, 길이를 맞추는 것이 HCP와 NSD의 voxel 위치까지 대응시키는 것은 아니다.
+
+이 pooling은 encoder에 넣기 전 입력 길이를 통일하는 단계이며, encoder 내부의 pooling과는 구분된다.
+
 ## 2. HCP classification
 
 제공된 betamap 1,520개에서 19개 task condition을 분류했다. 각 벡터를 길이 100,000으로 pooling하고 sample 단위로 train / validation / test를 8:1:1로 분할했다.
