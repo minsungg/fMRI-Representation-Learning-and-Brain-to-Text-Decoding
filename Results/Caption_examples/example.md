@@ -26,8 +26,6 @@
 
 ## 3. 직접 전처리한 NSD data
 
-02 노트북에서 추출한 betamap을 학습된 모델에 입력했다. 서로 다른 자극에서도 유사한 문장이 반복됐다.
-
 | reference | generated caption |
 |---|---|
 | Skiers and snowboarders going down a run on a sunny day. | A man standing on a beach with his head covered in sand. |
