@@ -2,7 +2,7 @@
 
 fMRI 뇌 활동 data로 인지 과제를 분류하고, 피험자가 본 이미지의 내용을 문장으로 생성하는 수업 프로젝트다. HCP betamap으로 학습한 encoder를 GPT-2에 연결해 NSD 캡션 생성으로 확장했다.
 
-![Title](./)
+![Title](./Docs/Images/t1image0.png)
 
 - **기간:** 2026.04–2026.06
 - **수행자:** 유민성(개인)
