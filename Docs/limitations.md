@@ -1,18 +1,16 @@
-# 실험의 한계
+# 프로젝트의 한계
 
-현재 결과의 해석 범위와 구현상 확인 사항을 정리했다. 실험 과정과 생성 예시는 [실험 기록](experiment_log.md)을 참고한다.
+현재 결과의 해석 범위와 구현상 확인 사항을 정리했다. 프로젝트 과정과 생성 예시는 [로그](experiment_log.md)를 참고한다.
 
 ## 전처리와 입력 표현
 
 ### 생략한 공간 정합
 
-메모리 제약으로 기능영상과 구조영상의 coregistration, 표준공간 normalization을 생략했다. MNI152 마스크를 영상 격자에 resampling했지만, 이는 해부학적 정합을 대신하지 않는다.
-
-움직임 보정과 motion parameter·FD 계산은 수행했다. 다만 해당 값을 GLM confound로 전달하거나 움직임이 큰 frame을 제외하지는 않았다.
+메모리 제약으로 인해 coregistration과 spatial normalization을 생략했다.
 
 ### 제공 data와 직접 전처리한 data의 차이
 
-주 학습에는 제공된 betamap을 사용했고, 직접 추출한 betamap은 별도 입력으로 테스트했다. 두 data는 마스크, 공간 정합, voxel 순서, GLM 설정 및 값의 분포가 다를 수 있다.
+주 학습에는 제공된 betamap을 사용했고, 직접 추출한 betamap은 ablation에만 활용되었다.
 
 `AdaptiveAvgPool1d(100000)`은 벡터 길이를 맞추지만 해부학적 위치를 대응시키지는 않는다. 직접 전처리한 입력에서 나타난 예측 집중·캡션 반복을 특정 생략 단계 하나의 영향으로 분리해 확인하지는 않았다.
 
