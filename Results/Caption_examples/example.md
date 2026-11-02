@@ -35,8 +35,6 @@
 | A large dog wearing an orange safety vest. | A man standing on a beach with his hands on his head. |
 | A cat rclining in a red leather easy chair | A man standing on a beach with his head covered in sand. |
 
-원문의 오타도 그대로 보존했다. 제공된 data를 입력했을 때와 생성 양상이 달랐으며, 생략한 전처리 단계와 mask 차이를 가능한 원인으로 봤다.
-
 ---
 
 [실험 과정](../../Docs/experiment_log.md) · [Classification Results](../Classification/Results.md) · [04 NSD caption decoding 노트북](../../Notebooks/04_NSD_caption_decoding.ipynb)
