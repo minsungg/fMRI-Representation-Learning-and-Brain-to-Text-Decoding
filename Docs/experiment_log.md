@@ -1,6 +1,6 @@
-# 실험 과정과 결과
+# 실험 과정
 
-HCP task classification으로 학습한 fMRI encoder를 NSD caption decoding에 연결한 과정이다. 최종 노트북의 실행 결과를 중심으로 정리했으며, 실제로 기록하지 않은 중간 실험의 수치는 추가하지 않았다.
+HCP task classification으로 학습한 fMRI encoder를 NSD caption decoding에 연결한 과정이다.
 
 ## 1. 데이터 흐름
 
@@ -49,24 +49,9 @@ Adam, learning rate `1e-4`, weight decay `1e-5`, batch size 64로 35 epochs 학�
 | 25 | 0.0046 | 0.5241 |
 | 35 | 0.0020 | 0.5422 |
 
-후반에는 train loss가 계속 감소한 반면 validation loss는 다시 증가했다. 아래 평가와 가중치 저장에는 마지막 epoch 모델을 사용했다.
+후반에는 train loss가 계속 감소한 반면 validation loss는 다시 증가했다. 평가와 가중치 저장에는 마지막 epoch 모델을 사용했다.
 
-### 분류 결과
-
-**test Macro-F1: 0.8667**
-
-![HCP confusion matrix](Images/encoder-cm.png)
-
-숫자 label은 다음 순서다.
-
-```text
-0 fear      1 neut      2 loss      3 win       4 math
-5 story     6 lf        7 lh        8 rf        9 rh
-10 t        11 match    12 relation 13 mental   14 rnd
-15 body     16 faces    17 places   18 tools
-```
-
-![Encoder feature t-SNE](Images/encoder-tsne.png)
+분류 결과와 직접 전처리한 HCP data의 ablation은 [Classification Results](../Results/Classification/Results.md)에 정리했다.
 
 ## 3. NSD caption decoding
 
@@ -98,59 +83,11 @@ Adam, learning rate `1e-4`, batch size 64로 25 epochs 학습했다.
 | 20 | 1.3721 | 1.3091 |
 | 25 | 1.3495 | 1.2887 |
 
-### 실제 생성 예시
+실제 생성 문장과 zero / random 및 직접 전처리한 NSD data의 ablation은 [Caption Examples](../Results/Caption_examples/example.md)에 정리했다.
 
-아래는 노트북에 출력된 test 첫 10개 중 여섯 예시다. 문장은 출력 원문이며, sample 번호도 노트북과 같다.
+## 관련 노트북
 
-| sample | reference | generated caption |
-|---|---|---|
-| 1 | several red ripe apples in two large wooden boxes | A large bowl of rice and a large bowl of noodles. |
-| 2 | A woman sitting at a table with plates of food. | A woman is sitting on a bench with her hands on her hips. |
-| 3 | Room with wood covered wall and floor with two beds. | A large room with a bed and a desk. |
-| 4 | a green field that has a man with a kite | A man standing on a tree. |
-| 6 | A seagull rests on a concrete wall, with the ocean and a lighthouse in the background. | A man is standing on a tree in the middle of the road. |
-| 7 | A zebra is standing in a field and looking right at the camera. | A man is standing on a tree in the middle of the forest. |
-
-sample 2와 3에서는 사람·앉기, 방·침대 등 겹치는 개념이 나타났다. 다만 장소나 사물, 개수는 달랐다. 다른 예시에서는 중심 대상 자체가 다르거나 `A man ... a tree`와 같은 표현이 반복되었다.
-
-문장 생성까지의 연결은 구현했지만, 자연스러운 문장이 곧 이미지 내용의 정확한 복원을 의미하지는 않았다. 저장된 텍스트 평가값의 확인 사항은 [한계](limitations.md#캡션-평가)에 정리했다.
-
-## 4. ablation
-
-실제 betamap 대신 zero 벡터 하나와 random 벡터 세 개를 입력했다.
-
-| 입력 | generated caption |
-|---|---|
-| zero | A man walks up to a tree and sees a tree. |
-| random 1 | A man walks up to a tree with his hands on a tree. |
-| random 2 | A man walks up to a tree with his hands on a tree. |
-| random 3 | A man walks up to a tree with his hands on a tree. |
-
-정보가 없는 입력에서도 문장이 생성됐고 random 입력에서는 동일 문장이 반복됐다.
-
-## 5. 직접 전처리한 data의 추가 입력
-
-### HCP
-
-01 노트북의 산출물을 분류 모델에 입력했을 때 예측이 한 class에 집중됐다.
-
-![직접 전처리한 HCP 입력 결과](Images/encoder-ablation.png)
-
-### NSD
-
-02 노트북의 산출물에서도 서로 다른 자극에 유사한 문장이 반복됐다.
-
-| reference | generated caption |
-|---|---|
-| Skiers and snowboarders going down a run on a sunny day. | A man standing on a beach with his head covered in sand. |
-| A pizza on a plate with a fork and knife. | A man is standing on a beach with his head covered in sand. |
-| A large dog wearing an orange safety vest. | A man standing on a beach with his hands on his head. |
-| A cat rclining in a red leather easy chair | A man standing on a beach with his head covered in sand. |
-
-## 요약
-
-- HCP classification에서는 sample 단위 분할 기준 test Macro-F1 0.8667을 기록했다.
-- encoder와 Bridge를 학습하고 frozen GPT-2에서 캡션을 생성했다.
-- 생성 결과에는 일부 개념 중첩과 함께 대상 불일치·반복이 나타났다.
-
-구현과 전체 출력: [03 HCP classification](../Notebooks/03_HCP_classification.ipynb) · [04 NSD caption decoding](../Notebooks/04_NSD_caption_decoding.ipynb)
+- [01 HCP preprocessing](../Notebooks/01_HCP_preprocessing.ipynb)
+- [02 NSD preprocessing](../Notebooks/02_NSD_preprocessing.ipynb)
+- [03 HCP classification](../Notebooks/03_HCP_classification.ipynb)
+- [04 NSD caption decoding](../Notebooks/04_NSD_caption_decoding.ipynb)
