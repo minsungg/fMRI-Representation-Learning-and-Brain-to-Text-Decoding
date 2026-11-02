@@ -14,7 +14,7 @@ raw HCP / NSD data → 전처리 → GLM → 직접 추출한 betamap → ablati
 제공된 NSD betamap + COCO 캡션 → encoder → Bridge → GPT-2 → 캡션 생성
 ```
 
-### 전처리 실습
+### 전처리
 
 slice-timing correction, rigid-body motion correction, spatial smoothing을 적용했다. 메모리 제약으로 일부 전처리 과정은 생략했다(ipynb 참고). 이후 GLM으로 반응 크기를 추정하고 마스크를 적용해 벡터로 저장했다.
 
@@ -26,8 +26,6 @@ slice-timing correction, rigid-body motion correction, spatial smoothing을 적�
 | 저장 단위 | run 내 task condition | run 내 이미지 ID |
 | 최종 배열 | `(30, 182453)` | `(133, 292796)` |
 
-NSD에서는 같은 run의 동일 이미지를 하나의 GLM 조건으로 묶었다. 따라서 저장된 ID의 빈도는 원래 자극을 제시한 trial 수와 같지 않다.
-
 ## 2. HCP classification
 
 제공된 betamap 1,520개에서 19개 task condition을 분류했다. 각 벡터를 길이 100,000으로 pooling하고 sample 단위로 train / validation / test를 8:1:1로 분할했다.
@@ -38,7 +36,7 @@ betamap → Conv1d block × 4 → pooling → FC → feature vector (768) → cl
 
 Adam, learning rate `1e-4`, weight decay `1e-5`, batch size 64로 35 epochs 학습했다.
 
-### 학습 곡선
+### Loss curve
 
 ![HCP classification loss](Images/encoder-loss.png)
 
@@ -48,8 +46,6 @@ Adam, learning rate `1e-4`, weight decay `1e-5`, batch size 64로 35 epochs 학�
 | 15 | 0.0155 | 0.4836 |
 | 25 | 0.0046 | 0.5241 |
 | 35 | 0.0020 | 0.5422 |
-
-후반에는 train loss가 계속 감소한 반면 validation loss는 다시 증가했다. 평가와 가중치 저장에는 마지막 epoch 모델을 사용했다.
 
 분류 결과와 직접 전처리한 HCP data의 ablation은 [Classification Results](../Results/Classification/Results.md)에 정리했다.
 
@@ -83,7 +79,7 @@ Adam, learning rate `1e-4`, batch size 64로 25 epochs 학습했다.
 | 20 | 1.3721 | 1.3091 |
 | 25 | 1.3495 | 1.2887 |
 
-실제 생성 문장과 zero / random 및 직접 전처리한 NSD data의 ablation은 [Caption Examples](../Results/Caption_examples/example.md)에 정리했다.
+실제 생성된 캡션들은 [Caption Examples](../Results/Caption_examples/example.md)에 정리했다.
 
 ## 관련 노트북
 
