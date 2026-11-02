@@ -37,8 +37,6 @@ test sample의 768차원 feature vector를 t-SNE로 시각화했다.
 
 ![직접 전처리한 HCP 입력 결과](../../Docs/Images/encoder-ablation.png)
 
-제공된 data로 평가했을 때와 달리 예측이 한 class에 집중됐다. 생략한 전처리 단계와 mask 차이를 가능한 원인으로 봤다.
-
 ---
 
 [실험 과정](../../Docs/experiment_log.md) · [Caption Examples](../Caption_examples/example.md) · [03 HCP classification 노트북](../../Notebooks/03_HCP_classification.ipynb)
